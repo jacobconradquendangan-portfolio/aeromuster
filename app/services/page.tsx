@@ -35,8 +35,8 @@ export default function ServicesPage() {
         />
 
         <p className="mt-5 text-[11px] leading-relaxed text-[#d8adad]">
-          For anything life-threatening, call 911 first. Facility and airline enquiries are handled
-          by CRK Terminal Operations.
+          Demo build — these hotlines are fictional placeholders and will not connect. Facility and
+          airline enquiries are handled by CRK Terminal Operations.
         </p>
       </div>
 
@@ -77,8 +77,8 @@ export default function ServicesPage() {
 
             <p className="mt-3 flex items-start gap-2 text-[10.5px] leading-relaxed text-[#b98b8b]">
               <ShieldCheckIcon className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-              Numbers are verified for CRK Terminal 3. Mobile networks may be congested during an
-              incident — keep trying or use the SOS button.
+              Mock number — part of the 555-01xx fictional range, so no real agency is contacted.
+              Swap in verified hotlines before this is used for real.
             </p>
           </div>
         )}

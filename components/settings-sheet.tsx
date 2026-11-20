@@ -83,7 +83,7 @@ export default function SettingsSheet({ open, onClose }: { open: boolean; onClos
       <p className="mt-5 text-center text-[11px] leading-relaxed text-[#b98b8b]">
         AEROMUSTER v1.0 · Passenger safety companion
         <br />
-        In a life-threatening emergency, call <span className="text-[#ff8b8b]">911</span> immediately.
+        Demo build — hotlines are fictional and nothing here dials a real emergency service.
       </p>
     </Sheet>
   );

@@ -53,7 +53,7 @@ export default function RecoveryPage() {
 
         <div className="mt-3 grid grid-cols-2 gap-2.5">
           <a
-            href="tel:911"
+            href="tel:5550199"
             className="card flex items-center gap-2.5 rounded-2xl p-3.5 active:scale-[.99]"
           >
             <span className="tile grid h-10 w-10 shrink-0 place-items-center rounded-xl text-[#a5121e]">
@@ -61,9 +61,9 @@ export default function RecoveryPage() {
             </span>
             <span>
               <span className="block font-display text-sm uppercase tracking-[0.06em] text-[#ffd9d9]">
-                Call 911
+                Call 555-0199
               </span>
-              <span className="block text-[10px] text-[#d8adad]">National emergency</span>
+              <span className="block text-[10px] text-[#d8adad]">Mock emergency line</span>
             </span>
           </a>
           <Link

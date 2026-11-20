@@ -63,16 +63,16 @@ export default function SosOverlay({ open, onClose }: { open: boolean; onClose: 
               Emergency alert
             </h2>
             <p className="mx-auto mt-2 max-w-[300px] text-[13px] leading-relaxed text-[#f0bfbf]">
-              This sends your location and profile to CRK airport security and the ARFF station.
-              Use it only for a real emergency.
+              Demo build: this simulates sending your location to CRK security and the ARFF station.
+              Nothing is transmitted and no real number is dialled.
             </p>
 
             <a
-              href="tel:911"
+              href="tel:5550199"
               className="ribbon mt-5 flex h-14 w-full items-center justify-center gap-2.5 rounded-2xl font-display text-xl font-semibold uppercase tracking-[0.1em] text-white active:scale-[.99]"
             >
               <PhoneIcon className="h-5 w-5" />
-              Call 911 now
+              Call 555-0199
             </a>
             <button
               type="button"
@@ -123,10 +123,10 @@ export default function SosOverlay({ open, onClose }: { open: boolean; onClose: 
               Terminal 3 · Departures, Level 3 · reported 07:30
             </div>
             <a
-              href="tel:911"
+              href="tel:5550199"
               className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-2xl border border-[#ff6b6b]/40 text-sm font-semibold text-[#ffb3b3]"
             >
-              <PhoneIcon className="h-4 w-4" /> Call 911
+              <PhoneIcon className="h-4 w-4" /> Call 555-0199
             </a>
             <button
               type="button"

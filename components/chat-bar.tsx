@@ -24,7 +24,7 @@ const replies: { match: RegExp; text: string }[] = [
   },
   {
     match: /phone|hotline|contact|call|police|medic|doctor|ambulance/i,
-    text: "For a life-threatening emergency call 911. Airport police: 117. CRK operations: (045) 599-2888. The airport clinic is on Level 1 near Gate 3 — you can call any of them from the Services screen.",
+    text: "In this mock build the emergency line is 555-0199 and CRK airport operations is (045) 555-0102 — both fictional. The airport clinic is on Level 1 near Gate 3. All hotlines are listed on the Services screen.",
   },
   {
     match: /flight|delay|airline|cancel/i,
@@ -198,7 +198,7 @@ function ChatSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
 
         <div className="mt-2 flex items-center justify-center gap-1.5 pb-1 text-[10px] uppercase tracking-[0.12em] text-[#b98b8b]">
           <AlertTriangle className="h-3 w-3" />
-          Call 911 in a life-threatening emergency
+          Demo build · hotlines are fictional
         </div>
       </div>
     </Sheet>

@@ -60,6 +60,8 @@ export const announcements = [
   },
 ];
 
+// MOCK DATA: every number here is fictional (555-01xx reserved range) and will not connect.
+// None of these placeholders reach a real agency — swap in verified hotlines before any real use.
 export type Service = {
   slug: string;
   name: string;
@@ -77,9 +79,9 @@ export const emergencyServices: Service[] = [
     name: "Philippine National Police",
     short: "PNP",
     logo: "/img/svc-pnp.png",
-    role: "Airport police, security response and incident reports.",
-    phone: "117",
-    phoneLabel: "117 / 911",
+    role: "Airport police, security response and incident reports. CRK Airport Police Station responds through the emergency line.",
+    phone: "5550101",
+    phoneLabel: "555-0101",
     hours: "24 hours",
   },
   {
@@ -87,9 +89,9 @@ export const emergencyServices: Service[] = [
     name: "Clark International Airport",
     short: "CRK",
     logo: "/img/svc-crk.png",
-    role: "Terminal operations, passenger assistance and flight information.",
-    phone: "(045) 599-2888",
-    phoneLabel: "(045) 599-2888",
+    role: "Terminal operations, passenger assistance and flight information. Operated by LIPAD Corp.",
+    phone: "0455550102",
+    phoneLabel: "(045) 555-0102",
     hours: "24 hours",
   },
   {
@@ -98,8 +100,8 @@ export const emergencyServices: Service[] = [
     short: "BFP",
     logo: "/img/svc-bfp.png",
     role: "Airport rescue and firefighting (ARFF), fire safety inspections.",
-    phone: "911",
-    phoneLabel: "911",
+    phone: "5550103",
+    phoneLabel: "555-0103",
     hours: "24 hours",
   },
 ];
@@ -110,9 +112,9 @@ export const governmentServices: Service[] = [
     name: "Civil Aviation Authority",
     short: "CAAP",
     logo: "/img/svc-caap.png",
-    role: "Aviation safety oversight and passenger rights concerns.",
-    phone: "(02) 8244-9200",
-    phoneLabel: "(02) 8244-9200",
+    role: "Aviation safety oversight and passenger rights concerns. 24/7 Operations Center on locals 2234–2235.",
+    phone: "025550104",
+    phoneLabel: "(02) 555-0104",
     hours: "Mon–Fri, 8:00 – 17:00",
   },
   {
@@ -121,8 +123,8 @@ export const governmentServices: Service[] = [
     short: "BI",
     logo: "/img/svc-bi.png",
     role: "Immigration clearance, travel document and visa questions.",
-    phone: "(02) 8465-2400",
-    phoneLabel: "(02) 8465-2400",
+    phone: "025550105",
+    phoneLabel: "(02) 555-0105",
     hours: "24 hours",
   },
   {
@@ -130,9 +132,9 @@ export const governmentServices: Service[] = [
     name: "Department of Tourism",
     short: "DOT",
     logo: "/img/svc-dot.png",
-    role: "Tourist assistance, accredited guides and destination information.",
-    phone: "(02) 8523-8419",
-    phoneLabel: "(02) 8523-8419",
+    role: "Tourist Assistance Call Center, 24/7 — accredited guides and destination information.",
+    phone: "5550106",
+    phoneLabel: "555-0106",
     hours: "24 hours",
   },
 ];
