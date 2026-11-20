@@ -116,7 +116,7 @@ export default function ProfilePage() {
 
         <div className="card overflow-hidden rounded-2xl">
           <a
-            href="https://www.egov.ph"
+            href="https://e.gov.ph"
             target="_blank"
             rel="noreferrer"
             className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3.5 active:bg-white/[0.03]"
