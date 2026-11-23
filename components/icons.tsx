@@ -197,6 +197,35 @@ export function LayersIcon(p: P) {
   );
 }
 
+export function SearchIcon(p: P) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden {...stroke} {...p}>
+      <circle cx="10.6" cy="10.6" r="6.4" />
+      <path d="m15.4 15.4 4.4 4.4" />
+    </svg>
+  );
+}
+
+export function RouteIcon(p: P) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden {...stroke} {...p}>
+      <circle cx="6" cy="18.4" r="2.6" />
+      <circle cx="18" cy="5.6" r="2.6" />
+      <path d="M8.6 18.4h4.2a2.6 2.6 0 0 0 2.6-2.6V9.4a2.6 2.6 0 0 1 2.6-2.6" />
+    </svg>
+  );
+}
+
+export function ClipboardIcon(p: P) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden {...stroke} {...p}>
+      <path d="M9 4.2H6.4A1.4 1.4 0 0 0 5 5.6v13.8a1.4 1.4 0 0 0 1.4 1.4h11.2a1.4 1.4 0 0 0 1.4-1.4V5.6a1.4 1.4 0 0 0-1.4-1.4H15" />
+      <rect x="9" y="2.6" width="6" height="3.6" rx="1.1" />
+      <path d="M8.6 11h6.8M8.6 15h4.6" />
+    </svg>
+  );
+}
+
 /* ---------- Cream-tile feature glyphs ---------- */
 
 export function EvacuationGlyph({ className = "h-14 w-14" }: { className?: string }) {

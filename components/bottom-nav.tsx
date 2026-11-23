@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { BellIcon, ExploreIcon, HomeIcon, ProfileIcon, AlertTriangle } from "@/components/icons";
 import SosOverlay from "@/components/sos-overlay";
 import { useApp } from "@/lib/app-context";
@@ -17,8 +16,7 @@ const links = [
 
 export default function BottomNav() {
   const pathname = usePathname();
-  const { unread } = useApp();
-  const [sosOpen, setSosOpen] = useState(false);
+  const { unread, openSos } = useApp();
 
   return (
     <>
@@ -33,8 +31,8 @@ export default function BottomNav() {
                 <div key="sos-slot" className="relative h-full">
                   <button
                     type="button"
-                    onClick={() => setSosOpen(true)}
-                    aria-label="Send an emergency alert"
+                    onClick={() => openSos()}
+                    aria-label="Send an emergency assistance request"
                     className="fab-ring absolute -top-[52px] left-1/2 grid h-[76px] w-[76px] -translate-x-1/2 place-items-center rounded-full border border-white/15 active:scale-95"
                   >
                     <span className="absolute inset-0 animate-[sos-pulse_2.6s_ease-out_infinite] rounded-full bg-[#ff2a36]/40" />
@@ -76,7 +74,7 @@ export default function BottomNav() {
           })}
         </div>
       </nav>
-      <SosOverlay open={sosOpen} onClose={() => setSosOpen(false)} />
+      <SosOverlay />
     </>
   );
 }

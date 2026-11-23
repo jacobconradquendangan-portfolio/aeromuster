@@ -254,7 +254,6 @@ function initialMessage(): Message {
     id: 0,
     from: "bot",
     text: "Hi Jane, I'm the AEROMUSTER assistant. Ask me about exits, gates, hotlines or what to do during an emergency.",
-    suggestions: ["Nearest exit", "Medical help", "Where is Gate 7?", "Hotlines"],
   };
 }
 
@@ -366,6 +365,13 @@ function ChatSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
     setMessages([initialMessage()]);
   }
 
+  // Every label already offered in the panel — the quick prompts and any link chip — so a
+  // suggestion button never repeats something the user can already see.
+  const shownLabels = new Set(
+    [...quickPrompts, ...messages.flatMap((message) => (message.links ?? []).map((link) => link.label))]
+      .map((label) => label.toLowerCase()),
+  );
+
   return (
     <Sheet open={open} onClose={onClose} title="AEROMUSTER Assistant" subtitle="Offline safety guide · not a live operator">
       <div className="flex h-[58dvh] flex-col">
@@ -386,42 +392,51 @@ function ChatSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
           aria-relevant="additions"
           className="no-scrollbar flex-1 space-y-3 overflow-y-auto pb-3"
         >
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`max-w-[86%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
-                message.from === "bot"
-                  ? "bg-white/[0.06] text-[#f0d3d3] ring-1 ring-white/10"
-                  : "ml-auto ribbon text-white"
-              }`}
-            >
-              {message.text}
-              {message.from === "bot" && ((message.links?.length ?? 0) > 0 || (message.suggestions?.length ?? 0) > 0) && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {message.links?.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={onClose}
-                      className="rounded-full border border-[#ff6b6b]/40 px-2.5 py-1 text-[11px] font-semibold text-[#ffb3b3]"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                  {message.suggestions?.map((suggestion) => (
-                    <button
-                      key={suggestion}
-                      type="button"
-                      onClick={() => send(suggestion)}
-                      className="rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[11px] text-[#e8c3c3] active:scale-95"
-                    >
-                      {suggestion}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+          {messages.map((message) => {
+            const suggestions = (message.suggestions ?? []).filter((suggestion) => {
+              const key = suggestion.toLowerCase();
+              if (shownLabels.has(key)) return false;
+              shownLabels.add(key);
+              return true;
+            });
+            return (
+              <div
+                key={message.id}
+                className={`max-w-[86%] rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
+                  message.from === "bot"
+                    ? "bg-white/[0.06] text-[#f0d3d3] ring-1 ring-white/10"
+                    : "ml-auto ribbon text-white"
+                }`}
+              >
+                {message.text}
+                {message.from === "bot" &&
+                  ((message.links?.length ?? 0) > 0 || suggestions.length > 0) && (
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {message.links?.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={onClose}
+                          className="rounded-full border border-[#ff6b6b]/40 px-2.5 py-1 text-[11px] font-semibold text-[#ffb3b3]"
+                        >
+                          {link.label}
+                        </Link>
+                      ))}
+                      {suggestions.map((suggestion) => (
+                        <button
+                          key={suggestion}
+                          type="button"
+                          onClick={() => send(suggestion)}
+                          className="rounded-full border border-white/15 bg-white/[0.04] px-2.5 py-1 text-[11px] text-[#e8c3c3] active:scale-95"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            );
+          })}
 
           {thinking && (
             <div

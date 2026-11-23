@@ -1,16 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Header from "@/components/header";
 import Sheet from "@/components/sheet";
 import {
+  AlertTriangle,
+  BellIcon,
   CameraIcon,
   CheckIcon,
+  ChevronRight,
+  ClipboardIcon,
   LogoutIcon,
   PhoneIcon,
   ShieldCheckIcon,
 } from "@/components/icons";
+import { useApp } from "@/lib/app-context";
+import { sosStatusLabels, type SosStatus } from "@/lib/data";
+
+const statusTone: Record<SosStatus, string> = {
+  received: "border-[#ffb347]/40 bg-[#ffb347]/10 text-[#ffd97a]",
+  acknowledged: "border-[#63d8a1]/35 bg-[#43c288]/10 text-[#8fe3bb]",
+  assigned: "border-[#63d8a1]/50 bg-[#43c288]/18 text-[#a9f0cc]",
+  cancelled: "border-white/15 bg-white/[0.04] text-[#b98b8b]",
+};
 
 const personal = [
   { label: "Address", value: "Block 1, Lot 2, JD Street, Pasay City, Philippines" },
@@ -26,6 +40,7 @@ const contact = [
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { sosRequests, cancelSosRequest } = useApp();
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [signedOut, setSignedOut] = useState(false);
 
@@ -114,7 +129,82 @@ export default function ProfilePage() {
           ))}
         </div>
 
+        <div className="ribbon rounded-full py-1.5 text-center">
+          <h2 className="font-display text-[16px] font-semibold uppercase tracking-[0.1em] text-white">
+            My assistance requests
+          </h2>
+        </div>
+        {sosRequests.length === 0 ? (
+          <div className="card rounded-2xl p-4">
+            <p className="text-[12px] leading-relaxed text-[#d8adad]">
+              No SOS requests yet. Use the red button on any screen to report an incident; the request
+              reference and its status appear here.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {sosRequests.map((request) => (
+              <div key={request.id} className="card rounded-2xl p-3.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-display text-[15px] uppercase tracking-[0.04em] text-[#ffe4e4]">
+                      {request.categoryLabel}
+                    </p>
+                    <p className="text-[10.5px] text-[#c9a0a0]">
+                      Ref {request.ref} · {request.createdAt}
+                    </p>
+                  </div>
+                  <span
+                    className={`shrink-0 rounded-full border px-2 py-0.5 text-[9.5px] uppercase tracking-[0.06em] ${statusTone[request.status]}`}
+                  >
+                    {sosStatusLabels[request.status]}
+                  </span>
+                </div>
+                <p className="mt-1 line-clamp-2 text-[11.5px] leading-relaxed text-[#d8adad]">
+                  “{request.description}”
+                </p>
+                <p className="mt-1 text-[10.5px] text-[#b98b8b]">
+                  {request.routedTo} · {request.location}
+                  {request.notifyContact ? " · contact notified" : ""}
+                </p>
+                {request.status !== "cancelled" && (
+                  <button
+                    type="button"
+                    onClick={() => cancelSosRequest(request.id)}
+                    className="mt-2 rounded-lg border border-white/15 px-2.5 py-1 text-[10px] uppercase tracking-[0.08em] text-[#e6c0c0]"
+                  >
+                    Cancel request
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="flex items-start gap-2 px-1 text-[10.5px] leading-relaxed text-[#b98b8b]">
+          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          Requests and status changes are simulated in this prototype. Nothing is transmitted to an
+          airport desk.
+        </p>
+
         <div className="card overflow-hidden rounded-2xl">
+          <Link
+            href="/alerts"
+            className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3.5 active:bg-white/[0.03]"
+          >
+            <span className="flex items-center gap-2 font-display text-[17px] uppercase tracking-[0.08em] text-[#ffe4e4]">
+              <BellIcon className="h-5 w-5 text-[#ff9c9c]" /> Alerts
+            </span>
+            <ChevronRight className="h-4 w-4 text-[#ffc9c9]" />
+          </Link>
+          <Link
+            href="/admin/alerts"
+            className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3.5 active:bg-white/[0.03]"
+          >
+            <span className="flex items-center gap-2 font-display text-[17px] uppercase tracking-[0.08em] text-[#ffe4e4]">
+              <ClipboardIcon className="h-5 w-5 text-[#ff9c9c]" /> Administrator console
+            </span>
+            <ChevronRight className="h-4 w-4 text-[#ffc9c9]" />
+          </Link>
           <a
             href="https://e.gov.ph"
             target="_blank"
@@ -143,7 +233,8 @@ export default function ProfilePage() {
         </div>
 
         <p className="px-1 text-[10.5px] leading-relaxed text-[#b98b8b]">
-          Your emergency profile is shared with CRK security only when you send an SOS alert.
+          Your emergency profile is shared with CRK security only when you send an SOS request. Data
+          stays in this browser session under RA 10173 — reset it from Settings.
         </p>
       </div>
 

@@ -2,6 +2,7 @@
 
 import { AppProvider } from "@/lib/app-context";
 import BottomNav from "@/components/bottom-nav";
+import ServiceWorker from "@/components/service-worker";
 
 export default function AppFrame({ children }: { children: React.ReactNode }) {
   return (
@@ -28,6 +29,7 @@ export default function AppFrame({ children }: { children: React.ReactNode }) {
           <BottomNav />
         </div>
       </div>
+      <ServiceWorker />
     </AppProvider>
   );
 }

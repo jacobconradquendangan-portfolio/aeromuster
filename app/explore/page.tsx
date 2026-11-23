@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Header from "@/components/header";
 import ChatBar from "@/components/chat-bar";
-import { ChevronRight, MapPinIcon, XIcon } from "@/components/icons";
+import { ChevronRight, MapPinIcon, RouteIcon, XIcon } from "@/components/icons";
 import { exploreSpots } from "@/lib/data";
 
 export default function ExplorePage() {
@@ -121,6 +121,24 @@ export default function ExplorePage() {
             </div>
           )}
         </div>
+
+        <Link
+          href="/navigate"
+          className="card flex items-center gap-3 rounded-2xl p-3.5 active:scale-[.99]"
+        >
+          <span className="tile grid h-11 w-11 shrink-0 place-items-center rounded-xl text-[#a5121e]">
+            <RouteIcon className="h-6 w-6" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-[17px] uppercase tracking-[0.06em] text-[#ffd9d9]">
+              Gate & facility directions
+            </span>
+            <span className="block text-[11px] text-[#d8adad]">
+              Routine navigation — not an evacuation route
+            </span>
+          </span>
+          <ChevronRight className="h-4 w-4 text-[#ffd9d9]" />
+        </Link>
 
         <div className="grid grid-cols-2 gap-2.5">
           <Link

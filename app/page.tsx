@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Header from "@/components/header";
+import AlertBanner from "@/components/alert-banner";
 import ChatBar from "@/components/chat-bar";
 import FeatureCard from "@/components/feature-card";
 import {
   EvacuationGlyph,
   MapPinIcon,
   RecoveryGlyph,
+  RouteIcon,
   ServicesGlyph,
 } from "@/components/icons";
 
@@ -16,6 +18,8 @@ export default function HomePage() {
 
       <div className="space-y-4 px-4 pt-4">
         <ChatBar />
+
+        <AlertBanner />
 
         <Link
           href="/map"
@@ -39,6 +43,11 @@ export default function HomePage() {
         </Link>
 
         <div className="space-y-3">
+          <FeatureCard
+            href="/navigate"
+            label="Navigate"
+            icon={<RouteIcon className="h-10 w-10 text-[#a5121e]" />}
+          />
           <FeatureCard href="/evacuation" label="Evacuation" icon={<EvacuationGlyph />} />
           <FeatureCard href="/services" label="Services" icon={<ServicesGlyph />} />
           <FeatureCard href="/recovery" label="Recovery Plan" icon={<RecoveryGlyph />} />
@@ -51,7 +60,7 @@ export default function HomePage() {
           </span>
           <p className="text-[11px] leading-snug text-[#e6c0c0]">
             <span className="font-semibold text-[#ffe0e0]">All systems normal.</span> CRK Terminal 3
-            is operating. Emergency maps are cached on your device.
+            is operating. Emergency maps and exits are saved for offline use.
           </p>
         </div>
       </div>

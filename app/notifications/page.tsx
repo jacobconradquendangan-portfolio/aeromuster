@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Header from "@/components/header";
-import { ChevronDown, MegaphoneIcon, ShieldCheckIcon } from "@/components/icons";
+import { AlertTriangle, ChevronDown, ChevronRight, MegaphoneIcon, ShieldCheckIcon } from "@/components/icons";
 import { announcements } from "@/lib/data";
 import { useApp } from "@/lib/app-context";
 
@@ -13,7 +14,7 @@ const categoryStyles: Record<string, string> = {
 };
 
 export default function NotificationsPage() {
-  const { notices, markAllRead, unread } = useApp();
+  const { notices, markAllRead, unread, alerts } = useApp();
   const [expanded, setExpanded] = useState<string | null>("n1");
 
   useEffect(() => {
@@ -41,6 +42,53 @@ export default function NotificationsPage() {
           <span className="rounded-full border border-white/15 bg-white/[0.05] px-2.5 py-1 text-[10px] uppercase tracking-[0.1em] text-[#e6c0c0]">
             {unread > 0 ? `${unread} new` : "All read"}
           </span>
+        </div>
+
+        <div className="flex items-center justify-between gap-2 px-1">
+          <h2 className="font-display text-lg font-semibold uppercase tracking-[0.1em] text-[#ffd9d9]">
+            Active alerts
+          </h2>
+          <Link
+            href="/alerts"
+            className="flex items-center gap-1 text-[10.5px] font-semibold uppercase tracking-[0.08em] text-[#ff9c9c]"
+          >
+            All alerts <ChevronRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+
+        <div className="space-y-2">
+          {alerts.slice(0, 3).map((alert) => (
+            <Link
+              key={alert.id}
+              href={`/alerts/${alert.id}`}
+              className={`card flex items-start gap-3 rounded-2xl p-3.5 active:scale-[.99] ${
+                alert.acknowledged ? "opacity-90" : "ring-1 ring-[#ff3b45]/30"
+              }`}
+            >
+              <span className="tile mt-0.5 grid h-10 w-10 shrink-0 place-items-center rounded-xl text-[#a5121e]">
+                <AlertTriangle className="h-5 w-5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-1.5">
+                  <span className="rounded border border-[#ff3b45]/40 bg-[#ff3b45]/12 px-1.5 py-0.5 text-[9px] uppercase tracking-[0.08em] text-[#ffb3b3]">
+                    {alert.severity}
+                  </span>
+                  {alert.test && (
+                    <span className="rounded border border-white/20 px-1.5 py-0.5 text-[9px] uppercase tracking-[0.08em] text-[#e6c0c0]">
+                      Test
+                    </span>
+                  )}
+                </span>
+                <span className="mt-1 block text-[12.5px] font-semibold leading-snug text-[#ffe4e4]">
+                  {alert.headline}
+                </span>
+                <span className="mt-0.5 block text-[10px] text-[#c9a0a0]">
+                  {alert.source} · {alert.issuedAt}
+                </span>
+              </span>
+              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-[#e6c0c0]" />
+            </Link>
+          ))}
         </div>
 
         <div className="space-y-2.5">
