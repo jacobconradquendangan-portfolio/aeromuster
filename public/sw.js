@@ -1,5 +1,5 @@
 /* AEROMUSTER offline cache — safety content only, no personal data. */
-const CACHE = "aeromuster-offline-v1";
+const CACHE = "aeromuster-offline-v2";
 const PRECACHE = [
   "/",
   "/map",
@@ -9,8 +9,8 @@ const PRECACHE = [
   "/img/bg.jpg",
   "/img/logo.png",
   "/img/avatar.jpg",
-  "/img/crk-level12.png",
-  "/img/crk-level3.png",
+  "/img/crk-level12.svg",
+  "/img/crk-level3.svg",
 ];
 
 self.addEventListener("install", (event) => {

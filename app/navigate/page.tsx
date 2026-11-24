@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Header from "@/components/header";
 import Sheet from "@/components/sheet";
+import NavSpotSheet from "@/components/nav-spot-sheet";
 import {
   AlertTriangle,
   ChevronRight,
@@ -14,10 +16,26 @@ import {
 } from "@/components/icons";
 import { navGroups, navSpots, type NavGroup, type NavSpot } from "@/lib/data";
 
+function SpotParamWatcher({ onSpot }: { onSpot: (id: string) => void }) {
+  const params = useSearchParams();
+  const spot = params.get("spot");
+
+  useEffect(() => {
+    if (spot) onSpot(spot);
+  }, [spot, onSpot]);
+
+  return null;
+}
+
 export default function NavigatePage() {
   const [query, setQuery] = useState("");
   const [group, setGroup] = useState<NavGroup | "All">("All");
   const [selected, setSelected] = useState<NavSpot | null>(null);
+
+  const openSpot = useCallback((id: string) => {
+    const spot = navSpots.find((item) => item.id === id);
+    if (spot) setSelected(spot);
+  }, []);
 
   const term = query.trim().toLowerCase();
   const spots = navSpots.filter((spot) => {
@@ -33,6 +51,10 @@ export default function NavigatePage() {
 
   return (
     <main className="page-rise">
+      <Suspense fallback={null}>
+        <SpotParamWatcher onSpot={openSpot} />
+      </Suspense>
+
       <Header title="Navigate" subtitle="Terminal 3 wayfinding" right="settings" />
 
       <div className="space-y-3 px-4 pt-4">
@@ -133,40 +155,7 @@ export default function NavigatePage() {
         title={selected?.name ?? ""}
         subtitle={`${selected?.level ?? ""} · ${selected?.walk ?? ""}`}
       >
-        {selected && (
-          <div className="pb-2">
-            <p className="flex items-start gap-2 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-[12px] leading-relaxed text-[#e6c0c0]">
-              <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-[#ff8b8b]" />
-              {selected.landmark}
-            </p>
-
-            <p className="mt-3 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[#d3a8a8]">
-              Step-by-step
-            </p>
-            <ol className="mt-2 space-y-3">
-              {selected.directions.map((step, index) => (
-                <li key={step} className="flex gap-3">
-                  <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#a5121e] font-display text-[12px] font-semibold text-white">
-                    {index + 1}
-                  </span>
-                  <p className="text-[12.5px] leading-relaxed text-[#e6c0c0]">{step}</p>
-                </li>
-              ))}
-            </ol>
-
-            <Link
-              href="/map"
-              className="mt-4 flex h-11 items-center justify-center gap-2 rounded-xl border border-[#ff6b6b]/40 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[#ffb3b3]"
-            >
-              <AlertTriangle className="h-4 w-4" /> Emergency exits instead
-            </Link>
-
-            <p className="mt-3 text-[10.5px] leading-relaxed text-[#b98b8b]">
-              Routine navigation only. Evacuation routes are shown on the Emergency Map and can differ
-              from this path.
-            </p>
-          </div>
-        )}
+        {selected && <NavSpotSheet spot={selected} context="navigate" />}
       </Sheet>
     </main>
   );

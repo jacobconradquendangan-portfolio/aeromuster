@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640">
+  <rect width="1000" height="640" fill="#f7efec"/>
+
+  <!-- apron -->
+  <rect x="40" y="380" width="920" height="220" rx="8" fill="#f0e2dd"/>
+  <path d="M40 352h920" fill="none" stroke="#dbc4bf" stroke-width="1.4" stroke-dasharray="16 10"/>
+  <text x="52" y="371" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#b08e89">APRON · AUTHORISED PERSONNEL ONLY</text>
+
+  <!-- terminal shell -->
+  <g fill="#fdf8f5" stroke="#8f2a33" stroke-width="2.4" stroke-linejoin="round">
+    <rect x="80" y="185" width="390" height="95" rx="6"/>
+    <rect x="470" y="70" width="450" height="230" rx="6"/>
+    <rect x="780" y="300" width="90" height="300" rx="6"/>
+  </g>
+
+  <!-- west transfer corridor -->
+  <g fill="#f1dfda" stroke="#c3a9a3" stroke-width="1.1">
+    <rect x="88" y="197" width="30" height="30" rx="3"/>
+    <rect x="128" y="197" width="120" height="48" rx="3"/>
+    <rect x="286" y="197" width="120" height="48" rx="3"/>
+  </g>
+  <g stroke="#b79490" stroke-width="1" fill="none">
+    <path d="M94 203v18M100 203v18M106 203v18M112 203v18"/>
+  </g>
+  <text x="138" y="221" font-family="Arial, Helvetica, sans-serif" font-size="9" letter-spacing="1.1" fill="#7c2a33">TRANSFER DESK</text>
+  <text x="296" y="221" font-family="Arial, Helvetica, sans-serif" font-size="9" letter-spacing="1.1" fill="#7c2a33">PRAYER ROOM</text>
+
+  <!-- main hall rooms -->
+  <g fill="#f1dfda" stroke="#c3a9a3" stroke-width="1.1">
+    <rect x="486" y="86" width="154" height="96" rx="4"/>
+    <rect x="656" y="86" width="88" height="96" rx="4"/>
+    <rect x="760" y="86" width="144" height="96" rx="4"/>
+    <rect x="486" y="200" width="154" height="84" rx="4"/>
+    <rect x="656" y="200" width="104" height="84" rx="4"/>
+  </g>
+  <g fill="#ddc9c4" stroke="#b99c97" stroke-width="0.9">
+    <rect x="500" y="150" width="120" height="10" rx="2"/>
+    <rect x="500" y="164" width="120" height="10" rx="2"/>
+  </g>
+  <g stroke="#b99c97" stroke-width="1.2" fill="none">
+    <path d="M676 100v66M692 100v66M708 100v66"/>
+  </g>
+  <g fill="#ddc9c4" stroke="#b99c97" stroke-width="0.9">
+    <rect x="790" y="108" width="10" height="54" rx="2"/>
+    <rect x="808" y="108" width="10" height="54" rx="2"/>
+    <rect x="826" y="108" width="10" height="54" rx="2"/>
+    <rect x="844" y="108" width="10" height="54" rx="2"/>
+    <rect x="862" y="108" width="10" height="54" rx="2"/>
+  </g>
+  <text x="498" y="106" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1.4" fill="#7c2a33">CHECK-IN</text>
+  <text x="664" y="106" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1.4" fill="#7c2a33">SECURITY</text>
+  <text x="770" y="106" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1.4" fill="#7c2a33">IMMIGRATION</text>
+  <text x="498" y="220" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1.4" fill="#7c2a33">DUTY FREE</text>
+  <text x="664" y="220" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1.4" fill="#7c2a33">LOUNGES</text>
+
+  <!-- piers stairs -->
+  <g fill="#e7d3ce" stroke="#a97f79" stroke-width="1.1">
+    <rect x="848" y="318" width="26" height="32" rx="3"/>
+    <rect x="848" y="520" width="26" height="32" rx="3"/>
+  </g>
+  <g stroke="#a97f79" stroke-width="1" fill="none">
+    <path d="M853 324h16M853 330h16M853 336h16M853 342h16"/>
+    <path d="M853 526h16M853 532h16M853 538h16M853 544h16"/>
+  </g>
+
+  <!-- gates: G9-G12 north pier -->
+  <g fill="#c22a34" stroke="#7d1f27" stroke-width="1.5">
+    <rect x="740" y="340" width="40" height="42" rx="3"/>
+    <rect x="740" y="410" width="40" height="42" rx="3"/>
+    <rect x="740" y="480" width="40" height="42" rx="3"/>
+    <rect x="740" y="550" width="40" height="42" rx="3"/>
+  </g>
+
+  <!-- evacuation routes -->
+  <g fill="none" stroke="#d0222c" stroke-width="3.6" stroke-dasharray="9 6" stroke-linecap="round">
+    <path d="M700 268H112"/>
+    <path d="M700 268h125v320"/>
+  </g>
+  <g fill="#d0222c">
+    <path d="M104 268l-14 8 14 8z"/>
+    <path d="M817 596h16l-8 12z"/>
+  </g>
+
+  <!-- exits -->
+  <g fill="#2f8f5b">
+    <rect x="74" y="234" width="8" height="30" rx="2"/>
+    <rect x="440" y="322" width="30" height="8" rx="2"/>
+    <rect x="858" y="574" width="28" height="8" rx="2"/>
+  </g>
+
+  <!-- assembly point -->
+  <g>
+    <rect x="300" y="420" width="140" height="80" rx="8" fill="#e9f3ec" stroke="#2f8f5b" stroke-width="2" stroke-dasharray="8 6"/>
+    <circle cx="370" cy="452" r="8" fill="#2f8f5b"/>
+    <text x="370" y="484" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="1.2" fill="#246c46">ASSEMBLY AREA C</text>
+  </g>
+  <path d="M452 344l-62 76" fill="none" stroke="#2f8f5b" stroke-width="2.4" stroke-dasharray="7 6"/>
+
+  <!-- compass -->
+  <g transform="translate(934 46)">
+    <circle r="20" fill="none" stroke="#b79490" stroke-width="1.2"/>
+    <path d="M0 -13 5 6 0 2 -5 6Z" fill="#8f2a33"/>
+    <text y="-26" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" letter-spacing="1" fill="#7c2a33">N</text>
+  </g>
+
+  <text x="52" y="52" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="bold" letter-spacing="1.6" fill="#7c2a33">TERMINAL 3 · LEVEL 3</text>
+  <text x="52" y="70" font-family="Arial, Helvetica, sans-serif" font-size="9.5" letter-spacing="2.2" fill="#a5676c">DEPARTURES · IMMIGRATION · NORTH PIER</text>
+  <text x="52" y="626" font-family="Arial, Helvetica, sans-serif" font-size="9" letter-spacing="1.6" fill="#b08e89">NOT TO SCALE · FOLLOW SIGNAGE AND MARSHALS</text>
+</svg>

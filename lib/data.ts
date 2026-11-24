@@ -373,7 +373,7 @@ export type SosRequest = {
   status: SosStatus;
 };
 
-export const sosDefaultLocation = "Terminal 3 · Level 3 · near Gate 7";
+export const sosDefaultLocation = "Terminal 3 · Level 2 · near Gate 7";
 export const emergencyContactName = "John Doe (brother)";
 
 /* ------------------------------------------------------------------ */
@@ -381,6 +381,10 @@ export const emergencyContactName = "John Doe (brother)";
 /* ------------------------------------------------------------------ */
 
 export type NavGroup = "Gates" | "Check-in & immigration" | "Facilities" | "Transport";
+
+export type FloorId = "12" | "3";
+
+export type MapPoint = { x: number; y: number };
 
 export type NavSpot = {
   id: string;
@@ -390,6 +394,24 @@ export type NavSpot = {
   landmark: string;
   walk: string;
   directions: string[];
+  floor?: FloorId;
+  point?: MapPoint;
+};
+
+/* Gate positions as percentages of the 1000 x 640 plan grid. */
+const gateLayout: Record<number, { floor: FloorId; point: MapPoint }> = {
+  1: { floor: "12", point: { x: 15, y: 46.3 } },
+  2: { floor: "12", point: { x: 24, y: 46.3 } },
+  3: { floor: "12", point: { x: 33, y: 46.3 } },
+  4: { floor: "12", point: { x: 42, y: 46.3 } },
+  5: { floor: "12", point: { x: 52, y: 49.2 } },
+  6: { floor: "12", point: { x: 60, y: 49.2 } },
+  7: { floor: "12", point: { x: 68, y: 49.2 } },
+  8: { floor: "12", point: { x: 75, y: 49.2 } },
+  9: { floor: "3", point: { x: 76, y: 56.4 } },
+  10: { floor: "3", point: { x: 76, y: 67.3 } },
+  11: { floor: "3", point: { x: 76, y: 78.3 } },
+  12: { floor: "3", point: { x: 76, y: 89.2 } },
 };
 
 function gateSpot(gate: number): NavSpot {
@@ -403,6 +425,8 @@ function gateSpot(gate: number): NavSpot {
     level,
     landmark: `${wing}, ${level} departures`,
     walk: `${3 + gate} min from security screening`,
+    floor: gateLayout[gate].floor,
+    point: gateLayout[gate].point,
     directions: [
       `Clear security on ${level} and turn into the ${wing}.`,
       `Follow the overhead gate numbers along the corridor to Gate ${gate}.`,
@@ -565,6 +589,250 @@ export const navGroups: (NavGroup | "All")[] = [
   "Check-in & immigration",
   "Facilities",
   "Transport",
+];
+
+/* ------------------------------------------------------------------ */
+/* Emergency map plans and pins (research functions 1 and 5)           */
+/* ------------------------------------------------------------------ */
+
+export type MapFloor = {
+  id: FloorId;
+  label: string;
+  short: string;
+  src: string;
+  alt: string;
+  detail: string;
+  width: number;
+  height: number;
+};
+
+export const mapFloors: MapFloor[] = [
+  {
+    id: "12",
+    label: "Level 1 & 2",
+    short: "L1–2",
+    src: "/img/crk-level12.svg",
+    alt: "AEROMUSTER schematic of Levels 1 and 2 showing the check-in hall, west concourse, baggage claim, clinic and Gates 1 to 8 with exits, stairs and assembly routes",
+    detail:
+      "Arrivals, check-in and the domestic concourse. Primary exits open to the west and south curbside.",
+    width: 1000,
+    height: 640,
+  },
+  {
+    id: "3",
+    label: "Level 3",
+    short: "L3",
+    src: "/img/crk-level3.svg",
+    alt: "AEROMUSTER schematic of Level 3 showing check-in, security, immigration, duty free and Gates 9 to 12 on the north pier with its stairwells",
+    detail:
+      "International departures, immigration and the north pier. Use the two stairwells on the pier.",
+    width: 1000,
+    height: 640,
+  },
+];
+
+export type MapPinKind = "gate" | "extinguisher" | "hose" | "aed" | "exit" | "assembly";
+
+export type MapPin = {
+  id: string;
+  kind: MapPinKind;
+  name: string;
+  floor: FloorId;
+  point: MapPoint;
+  spotId?: string;
+  nearest?: string;
+  note?: string;
+};
+
+const gatePins: MapPin[] = navSpots.flatMap((spot) =>
+  spot.group === "Gates" && spot.floor && spot.point
+    ? [
+        {
+          id: `pin-${spot.id}`,
+          kind: "gate" as const,
+          name: spot.name,
+          floor: spot.floor,
+          point: spot.point,
+          spotId: spot.id,
+        },
+      ]
+    : [],
+);
+
+/* Fire-safety equipment positions are simulated for this prototype. */
+export const mapPins: MapPin[] = [
+  ...gatePins,
+  {
+    id: "ext-12-concourse",
+    kind: "extinguisher",
+    name: "Fire extinguisher · west concourse",
+    floor: "12",
+    point: { x: 11, y: 33.5 },
+    nearest: "West concourse stairwell, opposite baggage claim",
+    note: "Mounted beside the west concourse stairwell, opposite baggage claim.",
+  },
+  {
+    id: "ext-12-clinic",
+    kind: "extinguisher",
+    name: "Fire extinguisher · clinic",
+    floor: "12",
+    point: { x: 43.5, y: 33 },
+    nearest: "First aid clinic, beside the Gate 3 corridor",
+    note: "On the wall outside the first aid clinic, beside the Gate 3 corridor.",
+  },
+  {
+    id: "ext-12-hall",
+    kind: "extinguisher",
+    name: "Fire extinguisher · check-in hall",
+    floor: "12",
+    point: { x: 64, y: 39.1 },
+    nearest: "End of the check-in counters, by the seating row",
+    note: "At the end of the check-in counters, next to the seating row.",
+  },
+  {
+    id: "ext-12-pier",
+    kind: "extinguisher",
+    name: "Fire extinguisher · north pier",
+    floor: "12",
+    point: { x: 86, y: 60.9 },
+    nearest: "Pier stairwell, 15 m from the Gate 8 hold room",
+    note: "Beside the pier stairwell, 15 m from the Gate 8 hold room.",
+  },
+  {
+    id: "hose-12",
+    kind: "hose",
+    name: "Fire hose reel · east hall",
+    floor: "12",
+    point: { x: 90, y: 44.5 },
+    nearest: "East wall of the main hall, beside the stair",
+    note: "Recessed cabinet on the east wall of the main hall, beside the stair.",
+  },
+  {
+    id: "aed-12-checkin",
+    kind: "aed",
+    name: "AED · check-in hall",
+    floor: "12",
+    point: { x: 67, y: 16 },
+    nearest: "Head of the check-in counters, under the flight boards",
+    note: "Wall-mounted at the head of the check-in counters, under the flight boards.",
+  },
+  {
+    id: "aed-12-info",
+    kind: "aed",
+    name: "AED · west concourse",
+    floor: "12",
+    point: { x: 45, y: 40 },
+    nearest: "Hall end of the west concourse, opposite the clinic",
+    note: "Wall cabinet at the hall end of the west concourse, opposite the clinic.",
+  },
+  {
+    id: "exit-12-west",
+    kind: "exit",
+    name: "West exit · curbside",
+    floor: "12",
+    point: { x: 8, y: 39.1 },
+    nearest: "Public transport bay, west curbside",
+    note: "Opens to the public transport bay and the covered walkway.",
+  },
+  {
+    id: "exit-12-south",
+    kind: "exit",
+    name: "South exit · curbside",
+    floor: "12",
+    point: { x: 45.5, y: 54.7 },
+    nearest: "South curbside, by Assembly Area C",
+    note: "Opens to the south curbside and Assembly Area C.",
+  },
+  {
+    id: "assembly-12",
+    kind: "assembly",
+    name: "Assembly Area C",
+    floor: "12",
+    point: { x: 35, y: 71.1 },
+    nearest: "Open ground beyond the south curbside",
+    note: "Open ground beyond the south curbside. Wait for a marshal before re-entering.",
+  },
+  {
+    id: "ext-3-security",
+    kind: "extinguisher",
+    name: "Fire extinguisher · security screening",
+    floor: "3",
+    point: { x: 64, y: 29.7 },
+    nearest: "Security screening lanes, by the staff door",
+    note: "Behind the security lanes, beside the staff door.",
+  },
+  {
+    id: "ext-3-pier-north",
+    kind: "extinguisher",
+    name: "Fire extinguisher · pier stairwell",
+    floor: "3",
+    point: { x: 86, y: 60.9 },
+    nearest: "North pier stairwell, between Gates 9 and 10",
+    note: "At the north pier stairwell, between the Gate 9 and Gate 10 hold rooms.",
+  },
+  {
+    id: "ext-3-pier-south",
+    kind: "extinguisher",
+    name: "Fire extinguisher · pier end",
+    floor: "3",
+    point: { x: 86, y: 85.2 },
+    nearest: "End-of-pier stairwell, near Gate 12",
+    note: "Beside the end-of-pier stairwell, near Gate 12.",
+  },
+  {
+    id: "hose-3",
+    kind: "hose",
+    name: "Fire hose reel · east hall",
+    floor: "3",
+    point: { x: 90.5, y: 44.5 },
+    nearest: "East wall of the departures hall",
+    note: "Recessed cabinet on the east wall of the departures hall.",
+  },
+  {
+    id: "aed-3-immigration",
+    kind: "aed",
+    name: "AED · immigration hall",
+    floor: "3",
+    point: { x: 82, y: 23.4 },
+    nearest: "End of the immigration counters, by the staff desk",
+    note: "At the end of the immigration counters, beside the staff desk.",
+  },
+  {
+    id: "aed-3-pier",
+    kind: "aed",
+    name: "AED · north pier",
+    floor: "3",
+    point: { x: 80, y: 47 },
+    nearest: "Opposite the Gate 9 lounge seating",
+    note: "Wall cabinet opposite the Gate 9 lounge seating.",
+  },
+  {
+    id: "exit-3-hall",
+    kind: "exit",
+    name: "South exit · departures hall",
+    floor: "3",
+    point: { x: 45.5, y: 54.7 },
+    nearest: "Forecourt, by Assembly Area C",
+    note: "Opens onto the forecourt and Assembly Area C.",
+  },
+  {
+    id: "exit-3-pier",
+    kind: "exit",
+    name: "North pier stairwell exit",
+    floor: "3",
+    point: { x: 87, y: 93.8 },
+    nearest: "North pier end, beside the stairwell",
+    note: "Stairwell down to the apron exit; do not use the lifts.",
+  },
+  {
+    id: "assembly-3",
+    kind: "assembly",
+    name: "Assembly Area C",
+    floor: "3",
+    point: { x: 35, y: 71.1 },
+    nearest: "Open ground beyond the forecourt",
+    note: "Open ground beyond the forecourt. Wait for a marshal before re-entering.",
+  },
 ];
 
 /* ------------------------------------------------------------------ */

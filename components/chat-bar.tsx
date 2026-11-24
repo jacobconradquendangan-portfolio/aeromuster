@@ -138,7 +138,7 @@ const intents: Intent[] = [
     id: "gate",
     patterns: [/\bgates?\b/, /terminal/, /concourse/, /\bfloors?\b/, /\blevels?\b/, /where (?:is|are|can i)/, /\bmap\b/, /directions?/, /arrivals/, /departures/],
     reply:
-      "Gate 7 is on Level 2, Domestic Departures, near the north concourse. The Emergency Map shows Levels 1–2 and Level 3 with the nearest exits in red — switch floors just under the plan.",
+      "Gate 7 is on Level 2, Domestic Departures, at the central concourse. The Emergency Map shows Levels 1–2 and Level 3 with the nearest exits in red — switch floors just under the plan.",
     links: [mapLink],
     suggestions: ["Nearest exit", "Hotlines", "Evacuation steps"],
     followUp:
